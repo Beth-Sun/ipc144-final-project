@@ -1,6 +1,5 @@
 # IPC|BTP - Final Assessment Part-2 (7.5% of term grade)
 
-## Assignment-1 (15% of term grade)
 ```
 Section     Worth Term Grade
 =========== ===== ==========
