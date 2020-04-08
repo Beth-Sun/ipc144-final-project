@@ -9,12 +9,12 @@ Reflection    60%       4.5%
      Total:  100%       7.5%
 ```
 
-# NOTE
+# NOTE:
 
 ## ***Coding Part (40%)***
-* ###Coding part may be done in groups of no more than 3 students.
-* ###All members will receive the same grade
+* Coding part may be done in groups of no more than 3 students.
+* All members will receive the same grade
 
 ## ***Reflection Part (60%)***
-* ##Each student must do a reflection and will be independently graded
+* Each student must do a reflection and will be independently graded
 
