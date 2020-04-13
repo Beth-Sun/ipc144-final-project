@@ -10,7 +10,7 @@
    3)
 
    +--------------------------------------------------------+
-   |                   FILE: main.c                         |
+   |                FILE: race_reporting.h                     |
    +--------------------------------------------------------+
    |           2  0  2  0  ~  W  I  N  T  E  R              |
    |                 I  P  C  :  B  T  P                    |
@@ -20,41 +20,17 @@
    |     S  E  N  E  C  A            C  O  L  L  E  G  E    |
    +--------------------------------------------------------+ */
 
-#define _CRT_SECURE_NO_WARNINGS
+#ifndef RACE_REPORTING_H
+#define RACE_REPORTING_H
 
 #include "file_helper.h"
 
-#define DATAFILE "data.txt"
+void calculateAgeGroup(const int age, char* age_group);
+void formatTime(const double time, char* formatted_time);
 
-int main(void)
-{
-	// 1) You will need to load the file data and store
-	//    it to a data structure array 
-	//    (MUST USE: provided "readFileRecord" function)
-    
-    FILE* data_file = NULL;
-    struct RiderInfo rider_info[MAXRECORD];
-    int size = 0;
+int findInCategory(const struct RiderInfo* riders, const size, char category, const struct RiderInfo* result);
+void findTop3(const struct RiderInfo* riders, const size, char category, const struct RiderInfo* result);
+void findLast3(const struct RiderInfo* riders, const size, char category, const struct RiderInfo* result);
+void findWinners(const struct RiderInfo* riders, const size, const struct RiderInfo* result);
 
-    data_file = fopen(DATAFILE, "r");
-    if (data_file == NULL) {
-        printf("Failed to open file %s", DATAFILE);
-        return 1;
-    }
-
-    int finished = 0;
-    do {
-        finished = readFileRecord(data_file, &rider_info[size++]);
-    } while (!finished);
-
-    fclose(data_file);
-
-	// 2) Create a menu system to provide the user with
-	//    the reporting options
-	//
-	// 3) Generate the user-selected report
-   
-    
-
-	return 0;
-}
+#endif
