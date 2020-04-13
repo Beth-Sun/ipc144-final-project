@@ -9,9 +9,9 @@ int getInt();
 int getIntInRange(int min, int max);
 char getCategory();
 
-void displayBasic(const struct RiderInfo* riders, int size);
-void displayWithdraw(const struct RiderInfo* riders, int size);
-void displayCrossCategory(const struct RiderInfo* riders, int size);
+void displayBasicReport(const struct RiderInfo* riders, int size);
+void displayWithdrawReport(const struct RiderInfo* riders, int size);
+void displayCrossCategoryReport(const struct RiderInfo* riders, int size);
 
 void displayRiderBasic(const struct RiderInfo* rider);
 void displayRiderWithdraw(const struct RiderInfo* rider);

@@ -53,8 +53,8 @@ int main(void)
 	//    the reporting options
 	//
 	// 3) Generate the user-selected report
-   
-    
+    while (menu());
+    printf("\nKeep on Riding!\n");
 
 	return 0;
 }
