@@ -1,33 +1,36 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <string.h>
+
 #include "race_reporting.h"
 #include "menu.h"
 
-
-int menu(const struct RiderInfo* riders, int size) {
+int menu(struct RiderInfo* riders, int size) {
 	int option = getMenuOption();
 	char category;
 
 	if (option == 1) { // top 3
 		category = getCategory();
-		struct RiderInfo top_3[3];
+		struct RiderInfo* top_3[3] = { 0 };
 		findTop3(riders, size, category, top_3);
-		displayBasic(top_3, 3);
+		displayBasicReport(top_3, 3);
 	}
 	else if (option == 2) { // all riders in category
 		category = getCategory();
-		struct RiderInfo categorized[MAXRECORD];
+		struct RiderInfo* categorized[MAXRECORD];
 		int size_c = findInCategory(riders, size, category, categorized);
-		displayWithdraw(categorized, size_c);
+		displayWithdrawReport(categorized, size_c);
 	}
 	else if (option == 3) { // last 3
 		category = getCategory();
-		struct RiderInfo last_3[3];
+		struct RiderInfo* last_3[3] = { 0 };
 		findLast3(riders, size, category, last_3);
-		displayBasic(last_3, 3);
+		displayBasicReport(last_3, 3);
 	}
 	else if (option == 4) { // winners
-		struct RiderInfo winners[3];
+		struct RiderInfo winners[3] = { { 0 } };
 		findWinners(riders, size, winners);
-		displayCrossCategory(winners, 3);
+		displayWinnersReport(winners, 3);
 	}
 	
 	return option;
@@ -48,7 +51,7 @@ int getInt() {
 	char nl = '\0';
 	int value = 0;
 	while (!scanf("%d%c", &value, &nl) || nl != '\n') {
-		clearKeyboard();
+		while (getchar() != '\n');
 		printf("*** INVALID INTEGER *** <Please enter an integer>: ");
 	}
 	return value;
@@ -66,49 +69,51 @@ int getIntInRange(int min, int max) {
 	return value;
 }
 
+
+// TODO: there's a bug here
 char getCategory() {
 	printf("Which category (S, M, L): ");
 	char nl, value = '\0';
 	while ((!scanf("%c%c", &value, &nl) || nl != '\n') &&
 		(value != 'S' && value != 'M' && value != 'L')) {
-		clearKeyboard();
+		while (getchar() != '\n');
 		printf("*** INVALID INPUT *** <Please enter a valid category (S, M, L)>: ");
 	}
 	return value;
 }
 
-void displayBasicReport(const struct RiderInfo* riders, int size) {
+void displayBasicReport(const struct RiderInfo** riders, int size) {
 	int i;
 	printf("\nRider                    Age Group Time\n");
 	printf("---------------------------------------\n");
 	for (i = 0; i < size; i++) {
-		displayRiderBasic(&riders[i]);
+		displayRiderBasic(riders[i]);
 	}
 	printf("\n");
 }
 
-void displayWithdrawReport(const struct RiderInfo* riders, int size) {
+void displayWithdrawReport(const struct RiderInfo** riders, int size) {
 	int i;
 	printf("\nRider                    Age Group Time Withdrew\n");
 	printf("------------------------------------------------\n");
 	for (i = 0; i < size; i++) {
-		displayRiderWithdraw(&riders[i]);
+		displayRiderWithdraw(riders[i]);
 	}
 	printf("\n");
 }
 
-void displayCrossCategoryReport(const struct RiderInfo* riders, int size) {
+void displayWinnersReport(const struct RiderInfo* riders, int size) {
 	int i;
 	printf("\nRider                    Age Group Category Time\n");
 	printf("------------------------------------------------\n");
 	for (i = 0; i < size; i++) {
-		displayRiderCrossCategory(&riders[i]);
+		displayRiderWinner(&riders[i]);
 	}
 	printf("\n");
 }
 
 void displayRiderBasic(const struct RiderInfo* rider) {
-	if (!strcmp(rider->name, "")) {
+	if (rider == 0) {
 		return;
 	}
 	char age_group[10];
@@ -124,7 +129,7 @@ void displayRiderBasic(const struct RiderInfo* rider) {
 }
 
 void displayRiderWithdraw(const struct RiderInfo* rider) {
-	if (!strcmp(rider->name, "")) {
+	if (rider == 0) {
 		return;
 	}
 	char age_group[10];
@@ -140,10 +145,8 @@ void displayRiderWithdraw(const struct RiderInfo* rider) {
 	);
 }
 
-void displayRiderCrossCategory(const struct RiderInfo* rider) {
-	if (!strcmp(rider->name, "")) {
-		return;
-	}
+void displayRiderWinner(const struct RiderInfo* rider) {
+	
 	char age_group[10];
 	char time[6];
 	char category[8];
@@ -159,10 +162,16 @@ void displayRiderCrossCategory(const struct RiderInfo* rider) {
 	calculateAgeGroup(rider->age, age_group);
 	formatTime(rider->withdrawn ? 0. : rider->finishTime - rider->startTime, time);
 
-	printf("%25s%-9s %s %s",
-		rider->name,
-		age_group,
-		category,
-		time
-	);
+	if (!strcmp(rider->name, "")) {
+		printf("%34s %s", "Not Awarded", category);
+	}
+	else {
+		printf("%25s%-9s %s %s",
+			rider->name,
+			age_group,
+			category,
+			time
+		);
+	}
+	
 }

@@ -28,9 +28,9 @@
 void calculateAgeGroup(const int age, char* age_group);
 void formatTime(const double time, char* formatted_time);
 
-int findInCategory(const struct RiderInfo* riders, const size, char category, const struct RiderInfo* result);
-void findTop3(const struct RiderInfo* riders, const size, char category, const struct RiderInfo* result);
-void findLast3(const struct RiderInfo* riders, const size, char category, const struct RiderInfo* result);
-void findWinners(const struct RiderInfo* riders, const size, const struct RiderInfo* result);
+int findInCategory(struct RiderInfo* riders, const size, char category, struct RiderInfo** result);
+void findTop3(struct RiderInfo* riders, const size, char category, struct RiderInfo** result);
+void findLast3(struct RiderInfo* riders, const size, char category, struct RiderInfo** result);
+void findWinners(const struct RiderInfo* riders, const size, struct RiderInfo* result);
 
 #endif
