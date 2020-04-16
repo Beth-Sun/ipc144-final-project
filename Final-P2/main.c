@@ -43,9 +43,10 @@ int main(void)
     }
 
     int finished = 0;
-    do {
-        finished = readFileRecord(data_file, &rider_info[size++]);
-    } while (!finished);
+    while (!finished) {
+        finished = readFileRecord(data_file, &rider_info[size]);
+        if (!finished) size++;
+    }
 
     fclose(data_file);
 
@@ -53,7 +54,7 @@ int main(void)
 	//    the reporting options
 	//
 	// 3) Generate the user-selected report
-    while (menu());
+    while (menu(rider_info, size));
     printf("\nKeep on Riding!\n");
 
 	return 0;
