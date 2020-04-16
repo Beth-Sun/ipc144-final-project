@@ -4,6 +4,12 @@
 #include "file_helper.h"
 
 int menu(struct RiderInfo* riders, int size);
+
+void printTop3(struct RiderInfo* riders, int size);
+void printAll(struct RiderInfo* riders, int size);
+void printLast3(struct RiderInfo* riders, int size);
+void printWinners(struct RiderInfo* riders, int size);
+
 int getMenuOption();
 int getInt();
 int getIntInRange(int min, int max);
