@@ -116,24 +116,24 @@ void findWinners(const struct RiderInfo* riders, const size, struct RiderInfo* r
 	result[raceLengthIndex('M')].raceLength = 'M';
 	result[raceLengthIndex('L')].raceLength = 'L';
 
-	result[raceLengthIndex('S')].startTime = WORST_RESULT;
-	result[raceLengthIndex('S')].finishTime = BEST_RESULT;
+	result[raceLengthIndex('S')].startTime = BEST_RESULT;
+	result[raceLengthIndex('S')].finishTime = WORST_RESULT;
 
-	result[raceLengthIndex('M')].startTime = WORST_RESULT;
-	result[raceLengthIndex('M')].finishTime = BEST_RESULT;
+	result[raceLengthIndex('M')].startTime = BEST_RESULT;
+	result[raceLengthIndex('M')].finishTime = WORST_RESULT;
 
-	result[raceLengthIndex('L')].startTime = WORST_RESULT;
-	result[raceLengthIndex('L')].finishTime = BEST_RESULT;
+	result[raceLengthIndex('L')].startTime = BEST_RESULT;
+	result[raceLengthIndex('L')].finishTime = WORST_RESULT;
 
 	int i;
 	for (i = 0; i < size; i++) {
-		if (riders->withdrawn) {
+		if (riders[i].withdrawn) {
 			continue;
 		}
-		int rl_index = raceLengthIndex(riders->raceLength);
+		int rl_index = raceLengthIndex(riders[i].raceLength);
 		double time = riders[i].finishTime - riders[i].startTime;
 		double best_time = result[rl_index].finishTime - result[rl_index].startTime;
-		if (time > best_time) {
+		if (time < best_time) {
 			result[rl_index] = riders[i];
 		}
 	}
