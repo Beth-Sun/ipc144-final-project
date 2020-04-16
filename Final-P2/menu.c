@@ -192,7 +192,7 @@ void displayRiderWinner(const struct RiderInfo* rider) {
 		printf("%-34s %s\n", "Not Awarded", category);
 	}
 	else {
-		printf("%-25s%9s %s %s\n",
+		printf("%-25s%9s %8s %s\n",
 			rider->name,
 			age_group,
 			category,

@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
+#include <math.h>
 #include "race_reporting.h"
 
 #define WORST_RESULT 500.
@@ -22,7 +23,7 @@ void calculateAgeGroup(const int age, char* age_group) {
 void formatTime(const double time, char* formatted_time) {
 	if (time > 0) {
 		int hour = time;
-		int min = (time - hour) * 60;
+		int min = round((time - hour) * 60);
 		sprintf(formatted_time, "%d:%02d", hour, min);
 	}
 	else {
