@@ -43,23 +43,23 @@ int findInCategory(struct RiderInfo* riders, const size, char category, struct R
 
 void shiftToRight(double* arr, int size, int position) {
 	int i;
-	for (i = position; i < size - 1; i++) {
-		arr[i + 1] = arr[i];
+	for (i = size - 1; i > position; i--) {
+		arr[i] = arr[i - 1];
 	}
 }
 
 void shiftToRightR(struct RiderInfo** arr, int size, int position) {
 	int i;
-	for (i = position; i < size - 1; i++) {
-		arr[i + 1] = arr[i];
+	for (i = size - 1; i > position; i--) {
+		arr[i] = arr[i - 1];
 	}
 }
 
 void findTop3(struct RiderInfo* riders, const size, char category, struct RiderInfo** result) {
-	double top_3[3] = { WORST_RESULT };
+	double top_3[3] = { WORST_RESULT, WORST_RESULT, WORST_RESULT };
 	int i, j;
 	for (i = 0; i < size; i++) {
-		if (riders[i].withdrawn) {
+		if (riders[i].withdrawn || riders[i].raceLength != category) {
 			continue;
 		}
 		double time = riders[i].finishTime - riders[i].startTime;
@@ -67,18 +67,19 @@ void findTop3(struct RiderInfo* riders, const size, char category, struct RiderI
 			if (time <= top_3[j]) {
 				shiftToRight(top_3, 3, j);
 				top_3[j] = time;
-				shiftToRightR(result, size, j);
+				shiftToRightR(result, 3, j);
 				result[j] = &riders[i];
+				break;
 			}
 		}
 	}
 }
 
 void findLast3(struct RiderInfo* riders, const size, char category, struct RiderInfo** result) {
-	double top_3[3] = { BEST_RESULT };
+	double top_3[3] = { BEST_RESULT, BEST_RESULT, BEST_RESULT };
 	int i, j;
 	for (i = 0; i < size; i++) {
-		if (riders[i].withdrawn) {
+		if (riders[i].withdrawn || riders[i].raceLength != category) {
 			continue;
 		}
 		double time = riders[i].finishTime - riders[i].startTime;
@@ -86,8 +87,9 @@ void findLast3(struct RiderInfo* riders, const size, char category, struct Rider
 			if (time >= top_3[j]) {
 				shiftToRight(top_3, 3, j);
 				top_3[j] = time;
-				shiftToRightR(result, size, j);
+				shiftToRightR(result, 3, j);
 				result[j] = &riders[i];
+				break;
 			}
 		}
 	}
