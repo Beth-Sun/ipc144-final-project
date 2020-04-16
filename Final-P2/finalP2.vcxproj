@@ -140,9 +140,16 @@
   <ItemGroup>
     <ClCompile Include="file_helper.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="menu.c" />
+    <ClCompile Include="race_reporting.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="file_helper.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="race_reporting.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
