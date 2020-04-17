@@ -29,9 +29,17 @@
 /* Define the missing members for the RiderInfo data    */
 /* used to store Rider information read from a file     */
 /********************************************************/
+#define MAXRECORD 5000
+
 struct RiderInfo
 {
-	// TODO:  Fill in the missing members:
+    char name[25];
+    int age;
+    char raceLength;
+    double startTime;
+    double mountainTime;
+    double finishTime;
+    int withdrawn;
 };
 
 

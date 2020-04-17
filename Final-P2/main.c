@@ -24,21 +24,38 @@
 
 #include "file_helper.h"
 
+#define DATAFILE "data.txt"
+
 int main(void)
 {
-	// TODO: Code the necessary logic for your solution below
-	//
-	// NOTE: Use modularity whenever possible in your design
-	//
-	// HINTS:
 	// 1) You will need to load the file data and store
 	//    it to a data structure array 
 	//    (MUST USE: provided "readFileRecord" function)
-	//
+    
+    FILE* data_file = NULL;
+    struct RiderInfo rider_info[MAXRECORD];
+    int size = 0;
+
+    data_file = fopen(DATAFILE, "r");
+    if (data_file == NULL) {
+        printf("Failed to open file %s", DATAFILE);
+        return 1;
+    }
+
+    int finished = 0;
+    while (!finished) {
+        finished = readFileRecord(data_file, &rider_info[size]);
+        if (!finished) size++;
+    }
+
+    fclose(data_file);
+
 	// 2) Create a menu system to provide the user with
 	//    the reporting options
 	//
 	// 3) Generate the user-selected report
-			
+    while (menu(rider_info, size));
+    printf("\nKeep on Riding!\n");
+
 	return 0;
 }

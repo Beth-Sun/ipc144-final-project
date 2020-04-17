@@ -1,0 +1,83 @@
+1. This program can greatly benefit from modular programming. Describe how you decided to make your program more modular. For each function you created, describe you decided to make the function and why its contents should be in one function.
+
+I divided the program to a menu module and a race_reporting module. The menu module is in charge of interacting with the user and prints out reports. And the race_reporting module does the calculations to find the data to display.  
+
+menu.h:
+    int menu(struct RiderInfo* riders, int size);
+
+        This function interacts with the user to decide which report the user wants to see.
+
+    void printTop3(struct RiderInfo* riders, int size);
+    void printAll(struct RiderInfo* riders, int size);
+    void printLast3(struct RiderInfo* riders, int size);
+    void printWinners(struct RiderInfo* riders, int size);
+
+        These 4 functions above calls race_reporting module to find what data to display and print them on the screen. They are like the main functions for the 4 report mimi programs.
+
+    int getMenuOption();
+
+        This function displays the menu and retrieves user's choice of report.
+
+    int getInt();
+    int getIntInRange(int min, int max);
+    char getCategory();
+
+        Above 3 functions are helpers for getting intger or character values. They are used in getting user's input for choice of menu option and riders' age category.
+
+    void displayBasicReport(const struct RiderInfo** riders, int size);
+    void displayWithdrawReport(const struct RiderInfo** riders, int size);
+    void displayWinnersReport(const struct RiderInfo* riders, int size);
+
+        These 4 functions above prints out the top3/bottom3, by category, and winners reports. The formats of the reports are defined here.
+
+    void displayRiderBasic(const struct RiderInfo* rider);
+    void displayRiderWithdraw(const struct RiderInfo* rider);
+    void displayRiderWinner(const struct RiderInfo* rider);
+
+        These 3 functions above prints out the reports' individule rows based on the record given.
+    
+race_reporting.h:
+    void calculateAgeGroup(const int age, char* age_group);
+
+        This function decides what string to print for each age group and calculates the string by the age given in first parameter. The texts "Senior", "Adult", and "Junior" are define here.
+
+    void formatTime(const double time, char* formatted_time);
+
+        This function generates the string format of the time given as a double.
+
+    int findInCategory(struct RiderInfo* riders, const size, char category, struct RiderInfo** result);
+
+        This function calculates the data for "all riders in a category" report.
+
+    void findTop3(struct RiderInfo* riders, const size, char category, struct RiderInfo** result);
+
+        This function calculates the data for "print first 3 riders in a category" report.
+
+    void findLast3(struct RiderInfo* riders, const size, char category, struct RiderInfo** result);
+
+        This function calculates the data for "print last 3 riders in a category" report.
+
+    void findWinners(const struct RiderInfo* riders, const size, struct RiderInfo* result);
+
+        This function calculates the winners for the "winners in all categories" report.
+
+race_reporting.c
+    I defined 3 functions shiftToRight and raceLengthIndex to make the code in findTop3 and findWinners a bit more readable. shiftToRight basically shifts elements in an array to its right to make a spot empty for new value. It's useful in my algorithm that calculates the top3/last3 riders.
+    
+    findWinners function passes its calculation result out in its last parameter. The parameter is supposed to take an array of 3 RiderInfo. I wrote raceLengthIndex function so that I can associate the character representation of categories 'S', 'M', and 'L' to indexes in the findWinners' result array.
+
+----
+2. The text for the categories is repeated a lot. Describe how you stored this efficiently to reduce wasting memory. Why is the technique you used more space efficient than other techniques? Pick one other technique that is less efficient than your method and describe why your method is superior (better).
+
+There are 2 types of categories, the age group and race length. 
+
+For age group, we only stored racers' age and when needed, we use calculateAgeGroup function in race_reporting.h to get the text string since it's displayed in multiple reports but not used in any calculation.
+
+For race length, we stored the category as a character and only in winners report, we need to translate the character into text based category names. So I wrote an if statement in displayRiderWinner to do that.
+
+A different way would be to store the category name directly as part of the RiderInfo struct. This way is less efficient because it takes more power to do calculations (char comparison vs string comparison), and it takes more memory to store a string.
+
+----
+3. Reading the data from the file presented some challenges. Explain how the readFileRecord() function determined when the end of line (record) had been reached, given that some of the riders might have withdrawn and would have a different number of fields on the line. Describe another technique you could use to handle the differing number of fields on each line (record).
+
+I can also read a character string until \n with a sinle scanf after scanning the rest of the field and decide if there is one more field by checking the length of the string using strlen().
